@@ -14,7 +14,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="id")
      * @ORM\Column(type="integer")
      */
     private $id;

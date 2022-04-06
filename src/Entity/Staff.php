@@ -12,7 +12,7 @@ class Staff
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="id")     
      * @ORM\Column(type="integer")
      */
     private $id;
