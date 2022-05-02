@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h3 class="titulo">{{titulo}}</h3>
+        <div class="form">
+            {{ form_start(formUser) }}
+            {{ form_start(formJugador) }}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(formJugador.nombre) }}
+                        {{ form_widget(formJugador.nombre) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(formJugador.apellido) }}
+                        {{ form_widget(formJugador.apellido) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(formUser.email) }}
+                        {{ form_widget(formUser.email) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(formJugador.telefono) }}
+                        {{ form_widget(formJugador.telefono) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(formUser.password) }}
+                        {{ form_widget(formuser.password) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(formJugador.fecha_nacimiento) }}
+                        {{ form_widget(formJugador.fecha_nacimiento) }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(formUser.password2) }}
+                        {{ form_widget(formUser.password2) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(formJugador.codigoPostal) }}
+                        {{ form_widget(formJugador.codigoPostal) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-buttons">
+                <p class="form-error-text" id="form_register_error"></p>
+				<button type="submit" id="submitButton" class="btn btn-outline-secondary">GUARDAR</button>
+				<button class="btn btn-outline-info" onclick="window.history.back()">CANCELAR</button>
+			</div>
+            {{ form_end(formJugador) }}
+            {{ form_end(formUser) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.js-datepicker').datepicker({
+                    format: 'yyyy-mm-dd'
+                });
+            });
+        </script>
+{% endblock %}

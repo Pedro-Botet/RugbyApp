@@ -1,19 +1,73 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+		<title>
+			{% block title %}
+				UNIFARCO
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
+			<link rel="icon" type="image/png" sizes="16x16" href="{{asset('img/favicon-16x16.png')}}">
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+			<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+			<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap" rel="stylesheet">
+			<link rel="stylesheet" href="{{ asset('css/unifarco.css')}}">
+		{% endblock %}
+	</head>
+	<body>
+		{% block navbar %}
+			<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+				<a class="navbar-brand" href="{{ path('homepage') }}">
+					<img src="{{ asset('img/logo.png')}}" alt="Logo">
+				</a>
+				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#mainMenu">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="mainMenu">
+
+					<ul class="navbar-nav">
+						{% if app.user %}
+							{% if is_granted('ROLE_ADMIN') %}
+								<li class="nav-item">
+									<a class="nav-link" href="{{path('listar_clientes')}}">clientes</a>
+								</li>
+								<li class="nav-item"> 
+									<a class="nav-link" href="{{ path('listar_convenios') }}">acuerdos</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="{{path('listar_delegados')}}">delegados</a>
+								</li>
+ 
+							{% elseif is_granted('ROLE_DELEGADO') %}
+								<li class="nav-item">
+									<a class="nav-link" href="{{ path('delegado_detalle', {delegadoId: app.user.id}) }}">delegado</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="{{path('listar_clientes')}}">clientes</a>
+								</li>
+							{% endif %}
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('app_logout') }}">salir</a>
+							</li>
+						{% endif %}
+					</ul>
+				</div>
+			</nav>
+			<a id="manualEnlace" href="{{ asset('docs/manual_usuario.pdf')}}" target="blank">
+				<i class="fa fa-question-circle"></i>
+			</a>
+
+		{% endblock %}
+		{% block body %}{% endblock %}
+		{% block javascripts %}{% endblock %}
+	</body>
 </html>
