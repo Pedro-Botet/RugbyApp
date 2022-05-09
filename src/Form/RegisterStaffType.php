@@ -5,12 +5,12 @@ namespace App\Form;
 use App\Entity\Staff;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints\Length;
 
 class RegisterStaffType extends AbstractType
@@ -64,11 +64,17 @@ class RegisterStaffType extends AbstractType
                 ],
                 'required' => false,
             ])
-            ->add('fecha_nacimiento', DateType::class, [
-                'label' => 'Introduzca su Fecha de Nacimiento',
-                'widget' => 'single_text',
-                'html5' => false,
-                'attr' => ['class' => 'js-datepicker'],
+            ->add('anoNacimiento', TextType::class, [
+                'label' => 'Introduzca su Año de Nacimiento',
+                'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new Length([
+                        'min' => 4,
+                        'minMessage' => 'El año de Nacimiento no puede ser inferior a {{ limit }} carácteres',
+                        'max' => 5,
+                        'maxMessage' => 'El año de Nacimiento no pude ser superior a {{ limit }} carácteres',
+                    ])
+                ],
             ])
             ->add('admin', ChoiceType::class, [
                 'choices' => [

@@ -3,19 +3,16 @@
 namespace App\Form;
 
 use App\Entity\Jugador;
-
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints\Length;
 
 class RegisterJugadorType extends AbstractType
 {
-    
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('nombre', TextType::class, [
@@ -42,16 +39,7 @@ class RegisterJugadorType extends AbstractType
                     ])
                 ],
             ])
-            ->add('email', EmailType::class, [
-                'label' => 'Correo electrónico',
-                'attr' => ['class' => 'form-control'],
-                'constraints' => [
-                    new Length([
-                        'max' => 100,
-                        'maxMessage' => 'El mail no puede ser superior a {{ limit }} caracteres',
-                    ])
-                ],
-            ])
+            ->add('email')
             ->add('telefono', TextType::class, [
                 'label' => 'Introduzca su Teléfono',
                 'attr' => ['class' => 'form-control'],
@@ -63,24 +51,29 @@ class RegisterJugadorType extends AbstractType
                 ],
                 'required' => false,
             ])
-            ->add('fecha_nacimiento', DateType::class, [
-                'label' => 'Introduzca su Fecha de Nacimiento',
-                'widget' => 'single_text',
-                'html5' => false,
-                'attr' => ['class' => 'form-control js-datepicker'],
-            ])
-            ->add('altura', TextType::class, [
-                'label' => 'Introduzca su Altura en Centímetros',
+            ->add('anoNacimiento', TextType::class, [
+                'label' => 'Introduzca su Año de Nacimiento',
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Length([
-                        'min' => 3,
-                        'minMessage' => 'El código postal no puede ser inferior a {{ limit }} caracteres',
-                        'max' => 3,
-                        'maxMessage' => 'El código postal no puede ser superior a {{ limit }} caracteres',
+                        'min' => 4,
+                        'minMessage' => 'El año de Nacimiento no puede ser inferior a {{ limit }} carácteres',
+                        'max' => 5,
+                        'maxMessage' => 'El año de Nacimiento no pude ser superior a {{ limit }} carácteres',
                     ])
                 ],
-                'required' => false,
+            ])
+            ->add('altura', TextType::class, [
+                'label' => 'Introduzca su Altura',
+                'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new Length([
+                        'min' => 4,
+                        'minMessage' => 'El Altura no puede ser inferior a {{ limit }} carácteres',
+                        'max' => 5,
+                        'maxMessage' => 'El Altura no pude ser superior a {{ limit }} carácteres',
+                    ])
+                ],
             ])
             ->add('peso', TextType::class, [
                 'label' => 'Introduzca su Peso en Kilogramos',
@@ -88,12 +81,11 @@ class RegisterJugadorType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min' => 2,
-                        'minMessage' => 'El código postal no puede ser inferior a {{ limit }} caracteres',
+                        'minMessage' => 'El Peso no puede ser inferior a {{ limit }} caracteres',
                         'max' => 4,
-                        'maxMessage' => 'El código postal no puede ser superior a {{ limit }} caracteres',
+                        'maxMessage' => 'El Peso no puede ser superior a {{ limit }} caracteres',
                     ])
                 ],
-                'required' => false,
             ])
             ->add('capitan', ChoiceType::class, [
                 'choices' => [
@@ -101,9 +93,10 @@ class RegisterJugadorType extends AbstractType
                     'inactive' => false
                 ]
             ]);
+        ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Jugador::class,

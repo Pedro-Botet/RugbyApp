@@ -10,7 +10,7 @@
 			{% endblock %}
 		</title>
 		{% block stylesheets %}
-			<link rel="icon" type="image/png" sizes="16x16" href="{{asset('img/favicon-16x16.png')}}">
+			<link rel="icon" type="image/png" sizes="16x16" >
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -20,14 +20,14 @@
 
 
 			<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap" rel="stylesheet">
-			<link rel="stylesheet" href="{{ asset('css/unifarco.css')}}">
+			<link rel="stylesheet" href="{{ asset('css/rugbyApp.css')}}">
 		{% endblock %}
 	</head>
 	<body>
 		{% block navbar %}
 			<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-				<a class="navbar-brand" href="{{ path('homepage') }}">
-					<img src="{{ asset('img/logo.png')}}" alt="Logo">
+				<a class="navbar-brand" >
+					<img  alt="Logo">
 				</a>
 				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#mainMenu">
 					<span class="navbar-toggler-icon"></span>
@@ -38,21 +38,21 @@
 						{% if app.user %}
 							{% if is_granted('ROLE_ADMIN') %}
 								<li class="nav-item">
-									<a class="nav-link" href="{{path('listar_clientes')}}">clientes</a>
+									<a class="nav-link" href="">clientes</a>
 								</li>
 								<li class="nav-item"> 
-									<a class="nav-link" href="{{ path('listar_convenios') }}">acuerdos</a>
+									<a class="nav-link" >acuerdos</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="{{path('listar_delegados')}}">delegados</a>
+									<a class="nav-link" >delegados</a>
 								</li>
  
 							{% elseif is_granted('ROLE_DELEGADO') %}
 								<li class="nav-item">
-									<a class="nav-link" href="{{ path('delegado_detalle', {delegadoId: app.user.id}) }}">delegado</a>
+									<a class="nav-link" >delegado</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="{{path('listar_clientes')}}">clientes</a>
+									<a class="nav-link" >clientes</a>
 								</li>
 							{% endif %}
 							<li class="nav-item">
@@ -62,7 +62,7 @@
 					</ul>
 				</div>
 			</nav>
-			<a id="manualEnlace" href="{{ asset('docs/manual_usuario.pdf')}}" target="blank">
+			<a id="manualEnlace" target="blank">
 				<i class="fa fa-question-circle"></i>
 			</a>
 
