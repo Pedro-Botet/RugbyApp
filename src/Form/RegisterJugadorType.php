@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Jugador;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,7 +40,6 @@ class RegisterJugadorType extends AbstractType
                     ])
                 ],
             ])
-            ->add('email')
             ->add('telefono', TextType::class, [
                 'label' => 'Introduzca su Teléfono',
                 'attr' => ['class' => 'form-control'],
@@ -51,14 +51,14 @@ class RegisterJugadorType extends AbstractType
                 ],
                 'required' => false,
             ])
-            ->add('anoNacimiento', TextType::class, [
+            ->add('fechaNacimiento', DateType::class, [
                 'label' => 'Introduzca su Año de Nacimiento',
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Length([
-                        'min' => 4,
+                        'min' => 3,
                         'minMessage' => 'El año de Nacimiento no puede ser inferior a {{ limit }} carácteres',
-                        'max' => 5,
+                        'max' => 10,
                         'maxMessage' => 'El año de Nacimiento no pude ser superior a {{ limit }} carácteres',
                     ])
                 ],
@@ -89,8 +89,8 @@ class RegisterJugadorType extends AbstractType
             ])
             ->add('capitan', ChoiceType::class, [
                 'choices' => [
-                    'active' => true,
-                    'inactive' => false
+                    'No' => true,
+                    'Si' => false
                 ]
             ]);
         ;

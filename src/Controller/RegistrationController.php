@@ -9,12 +9,12 @@ use App\Repository\UserRepository;
 
 use App\Form\RegisterUserType;
 use App\Form\RegisterJugadorType;
-
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class RegistrationController extends AbstractController
@@ -24,7 +24,7 @@ class RegistrationController extends AbstractController
      * 
      * @Route("/registerJugador", name="register_jugador")
      */
-    public function Resgistration(Request $request, UserRepository $repository, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function Resgistration(Request $request, UserRepository $repository, UserPasswordHasherInterface $passwordHasher, ManagerRegistry $doctrine): Response
     {
         $user = new User();
         $jugador = new Jugador();
@@ -48,24 +48,25 @@ class RegistrationController extends AbstractController
             }else{
 
                 $user->setEmail($formUser->get('email')->getData())
+                    ->setRoles(['ROLE_USER'])
                     ->setPassword(
-                        $passwordEncoder->encodePassword(
+                        $hashedPassword = $passwordHasher->hashPassword(
                             $user,
                             $formUser->get('password')->getData()));
                             
-                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager = $doctrine()->getManager();
                 $entityManager->persist($user);
 
-                $jugador->setNombre($formJugador->get('nombre')->getData())
-                    ->setApellido($formJugador->get('apellido')->getData())
+                $jugador->setId($user->getId())
                     ->setNombre($formJugador->get('nombre')->getData())
+                    ->setApellido($formJugador->get('apellido')->getData())
                     ->setEmail($formUser->get('email')->getData())
-                    ->setTelefono($formUser->get('telefono')->getData())
-                    ->setEmail($formUser->get('email')->getData())        
-                    ->setFechaNacimiento($formUser->get('fecha_nacimiento')->getData())
-                    ->setAltura($formUser->get('altura')->getData())
-                    ->setPeso($formUser->get('peso')->getData());
+                    ->setTelefono($formJugador->get('telefono')->getData())
+                    ->setFechaNacimiento($formJugador->get('fechaNacimiento')->getData())
+                    ->setAltura($formJugador->get('altura')->getData())
+                    ->setPeso($formJugador->get('peso')->getData());
                 
+                $entityManager->persist($jugador);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('home');
